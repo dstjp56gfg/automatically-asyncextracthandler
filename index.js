@@ -1,16 +1,13 @@
-function maximalSquare(matrix) {
-  if (matrix.length === 0) return 0;
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const dp = Array.from(Array(rows + 1), () => Array(cols + 1).fill(0));
-  let maxSide = 0;
-  for (let i = 1; i <= rows; i++) {
-    for (let j = 1; j <= cols; j++) {
-      if (matrix[i - 1][j - 1] === "1") {
-        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1;
-        maxSide = Math.max(maxSide, dp[i][j]);
-      }
+function canPartition(nums) {
+  const sum = nums.reduce((acc, val) => acc + val, 0);
+  if (sum % 2 !== 0) return false;
+  const target = sum / 2;
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+  for (const num of nums) {
+    for (let i = target; i >= num; i--) {
+      dp[i] = dp[i] || dp[i - num];
     }
   }
-  return maxSide * maxSide;
+  return dp[target];
 }
