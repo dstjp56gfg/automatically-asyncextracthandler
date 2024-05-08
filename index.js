@@ -1,13 +1,17 @@
-function canPartition(nums) {
-  const sum = nums.reduce((acc, val) => acc + val, 0);
-  if (sum % 2 !== 0) return false;
-  const target = sum / 2;
-  const dp = new Array(target + 1).fill(false);
-  dp[0] = true;
-  for (const num of nums) {
-    for (let i = target; i >= num; i--) {
-      dp[i] = dp[i] || dp[i - num];
+function decodeString(s) {
+  const stack = [];
+  for (const char of s) {
+    if (char !== "]") stack.push(char);
+    else {
+      let str = "";
+      while (stack.length && stack[stack.length - 1] !== "[")
+        str = stack.pop() + str;
+      stack.pop();
+      let num = "";
+      while (stack.length && !isNaN(stack[stack.length - 1]))
+        num = stack.pop() + num;
+      stack.push(str.repeat(parseInt(num)));
     }
   }
-  return dp[target];
+  return stack.join("");
 }
