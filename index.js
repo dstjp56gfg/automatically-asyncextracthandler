@@ -1,17 +1,17 @@
-function decodeString(s) {
-  const stack = [];
-  for (const char of s) {
-    if (char !== "]") stack.push(char);
-    else {
-      let str = "";
-      while (stack.length && stack[stack.length - 1] !== "[")
-        str = stack.pop() + str;
-      stack.pop();
-      let num = "";
-      while (stack.length && !isNaN(stack[stack.length - 1]))
-        num = stack.pop() + num;
-      stack.push(str.repeat(parseInt(num)));
+function pathSum(root, sum) {
+  if (!root) return [];
+  const result = [];
+  const path = [];
+  const traverse = (node, sum) => {
+    if (!node) return;
+    path.push(node.val);
+    if (!node.left && !node.right && sum === node.val) {
+      result.push([...path]);
     }
-  }
-  return stack.join("");
+    traverse(node.left, sum - node.val);
+    traverse(node.right, sum - node.val);
+    path.pop();
+  };
+  traverse(root, sum);
+  return result;
 }
