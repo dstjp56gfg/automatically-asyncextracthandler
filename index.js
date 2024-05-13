@@ -1,1 +1,6 @@
-const drop = (arr, n = 1) => arr.slice(n);
+const flattenDepth = (arr, depth = 1) =>
+  arr.reduce(
+    (a, v) =>
+      a.concat(depth > 1 && Array.isArray(v) ? flattenDepth(v, depth - 1) : v),
+    [],
+  );
